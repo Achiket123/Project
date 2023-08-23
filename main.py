@@ -40,10 +40,11 @@ class Tasklabels(boxlayout.BoxLayout):
         if value:
             self.complete = True
             for i in self.list_task:
-                if i[0] == self.text:
+                
+                if i[0] == self.text and i[0]!='Task text' :
                     self.list_task.remove(i)
-            
             self.bxlayout.remove_widget(self)
+         
             
 			
     def update_background(self, *args):
@@ -89,7 +90,7 @@ class ToDoApp(App):
     def load_tasks_from_csv(self):
        
         for row in self.tasks:
-            if row:
+            if row[0] != 'Task text':
                 text, complete = row
                 complete = complete != "True"
                 l = Tasklabels(text=text, comp=complete, list_task=self.tasks, bxlayout=self.bx_layout)

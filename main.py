@@ -8,9 +8,12 @@ import csv
 fh=open("tasks.csv",'+r',newline='')
 ob=csv.reader(fh)
 wr=csv.writer(fh)
+button_color=(0.5765,0.6941,0.6509,1)
+input_color=(0.0941,0.2392,0.2392,1)
+text_color=(0.5,0.5,0.5,1)
 
-Window.clearcolor='#30120c'
-Window.size=(325,565)
+Window.clearcolor=(0.5,0.5,0.5,1)
+
 
 
 class Tasklabels(boxlayout.BoxLayout):
@@ -21,7 +24,7 @@ class Tasklabels(boxlayout.BoxLayout):
         self.bxlayout = bxlayout
         self.list_task=list_task
         with self.canvas:
-            Color(0.270, 0.00, 0.0855,1)
+            Color(0.36, 0.32, 0.45,1)
             self.background_rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self.update_background, size=self.update_background)
         self.orientation = 'horizontal'
@@ -64,10 +67,12 @@ class ToDoApp(App):
         
         
         self.main_layout = floatlayout.FloatLayout()
+        self.name1=label.Label(text='APP made by Achiket',size_hint=(None,None),height=0.4,pos_hint={'center_x':0.5,'center_y':0.9},bold=True)
         self.scroll = scrollview.ScrollView()
         
         self.upper_layout= anchorlayout.AnchorLayout(pos_hint={'center_x':0.5,'center_y':0.54},size_hint=(1,0.9))
-        self.bx_layout=boxlayout.BoxLayout(orientation='vertical')
+        self.bx_layout=gridlayout.GridLayout(cols=1,spacing=10)
+        self.main_layout.add_widget(self.name1)
         self.scroll.add_widget(self.bx_layout)
         self.upper_layout.add_widget(self.scroll)
         
@@ -77,10 +82,10 @@ class ToDoApp(App):
         self.inner_layout.add_widget(self.inner_layout_1)
         self.main_layout.add_widget(self.inner_layout)
 
-        self.input=textinput.TextInput(hint_text="Enter a task",size_hint=(0.7,0.1),padding_y=25,font_size='16sp',scroll_from_swipe=True)
+        self.input=textinput.TextInput(hint_text="Enter a task",hint_text_color=(1,1,1,1),size_hint=(0.7,0.1),padding_y=25,font_size='16sp',scroll_from_swipe=True,background_color=input_color,foreground_color='white')
         self.inner_layout_1.add_widget(self.input)
         
-        self.button1 = button.Button(text='Add Task',bold=True,size_hint=(0.3,0.1),on_press=self.Add_task,background_color='red')
+        self.button1 = button.Button(text='Add Task',bold=True,size_hint=(0.3,0.1),color=(1,1,1,1),background_color=button_color,on_press=self.Add_task)
         self.inner_layout_1.add_widget(self.button1)
         
         self.load_tasks_from_csv()
@@ -102,12 +107,14 @@ class ToDoApp(App):
         
         self.text=self.input.text
         self.input.text=''
-        l=Tasklabels(text=self.text,bxlayout=self.bx_layout,list_task=self.tasks)
-        self.tasklabels.append(l)
-        k=[self.text,False]
-        self.tasks.append(k)
         if self.text != '':
-            self.bx_layout.add_widget(l)
+    
+            l=Tasklabels(text=self.text,bxlayout=self.bx_layout,list_task=self.tasks)
+            self.tasklabels.append(l)
+            k=[self.text,False]
+            self.tasks.append(k)
+            if self.text != '':
+                self.bx_layout.add_widget(l)
     
 
     

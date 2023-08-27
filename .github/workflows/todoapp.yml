@@ -16,11 +16,11 @@ jobs:
         uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
-          workdir: <specify the directory of the app no don't mention this the app files are in root directory>
+          workdir: ../main.py
           buildozer_version: stable
   
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: ${{ steps.buildozer.outputs.todoApp }}
